@@ -4,4 +4,4 @@
 
 ## Web URL
 
-[https://amenaruya.github.io/Japanese_Kana_App/]
+<https://amenaruya.github.io/Japanese_Kana_App/>
