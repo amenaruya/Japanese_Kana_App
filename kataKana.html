@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>片假字</title>
+    </head>
+    <body>
+        <header class="header" id="header"></header>
+
+        <select name="select" id="select">
+            <option value="annotation" selected>註</option>
+            <option value="table">表</option>
+        </select>
+
+        <h2 id="h2">註</h2>
+        <div class="annotation" id="main">
+        </div>
+
+        <script src="script/makeHeader.js"></script>
+        <script>
+        /* 排列 */
+            const as_ANNOTATION_TEXT = [
+                '平󠄁假字ト片假字トヲ別ケタルハ單ニ吾人ノ片假字ニ對スル無知ナレバナリ'+
+                '抑片假字ニ於テモ或ハ現行スル字アリ或ハ現行セザル字アリ'+
+                '然レ𪜈此等ハ平󠄁假字ガ如ク用ヰラルヽヿ永カラザレバ實用例スラ且ツ尠シ況ヤ「Unicode」ヲヤ'+
+                '而シテ其ノ稀有例トハ卽チ「𛀀」ナリ',
+
+                '曰ク奈良時代ニ於テ大陸ヨリ傳來セル佛經典ニ金光明󠄁最󠄁勝󠄁王經アリト'+
+                '後人註釋ヲ附シタルヲ西大寺ニ藏セルアリテ是ヲ西大寺本金光明󠄁最󠄁勝󠄁王經ト云フナリ'+
+                '此經ハ十卷ヨリ成ル佛經典ニシテ紫紙ニ金字デ以テ書カレタルモアルハ實ニ貴シ'+
+                '一部ノ斷𥳑トナルガ傳リ來ルモ欣喜スベキナリト雖モ'+
+                '殊ニ歎賞スベキハ全󠄁卷現存スル金甌無缼ノアルヿナリ'+
+                '時ハ降󠄃リテ明治ノ御代トナリ國寶ト指定セラレタルノ大矢透󠄁博󠄁士ノ硏究スル所󠄁トナレバ'+
+                '明治四十二年󠄂刊行セル「假名遣󠄁及󠄁假名字體沿󠄂革史料」ニ一部ヲ記󠄂載セラレタリ'+
+                '此書刊行ヨリ更ニ時代ヲ經タル昭和十七年󠄂'+
+                '春日政治博󠄁士ニ因テ畢竟「西大寺本金光明󠄁最󠄁勝󠄁王經古點の國語學的󠄁硏究」ハ刊行セラレタリ'+
+                '本書ハ「假名遣󠄁及󠄁假名字體沿󠄂革史料」ニ更ナル考證ヲ加フルト共ニ'+
+                '獨リ西大寺本金光明󠄁最󠄁勝󠄁王經ノミヲ審ラカニ解明スルモノナリ'+
+                '而シテ冒󠄁頭ニ載セル假名字體表中ニ「𛀀」ヲ見ルヿヲ得タレバ是ヲ引用ス',
+
+                '現代ニ於テハ「Unicode」ニ因ル符號化ノ行ハレ居ルト雖モ'+
+                '未ダ上代ニ見ル黎明ノ片假名ハ其ノ殆ドヲ定メザル故吾人ノ知ル所󠄁ニモアラザリキ'+
+                '以テ片假名ノ表ハ斯ク註ヲ附シテ作サザルヲ得ズ'+
+                '此度や行ヲ配󠄃置󠄁スルベク有賀長隣󠄂氏ノ編󠄁輯セル「片假名元字」ニ從ヒタリ'+
+                '然リトテ「片假名元字」ノ述󠄁ブル字母ノ說ハ平成ノ御代ニハ已ニ聞コエザレバ吾人以爲ラク烏ゾ信頼ニ堪ヘンヤト'+
+                '而シテ平成ノ辭書「広辞苑」ガ說ヲ字母ノ通󠄁說トナセリ'+
+                '亦現代ノ辭書ニモ同等ノ記󠄂事アレバ宜シク倂テ讀ミ片假名ノ深キヲ知ルベシ'
+            ];
+
+            const as_ANNOTATION_IMAGE = [
+                '<img src="image/假名字體表(本點).png" alt="假名字體表(本點)">',
+                '<img src="image/假名字體表(別點).png" alt="假名字體表(別點)">',
+                '<img src="image/假名字體表(朱點).png" alt="假名字體表(朱點)">'
+            ];
+
+            const as_ANNOTATION_ANCHOR = [
+                '<a href="https://ja.wikipedia.org/wiki/%E3%82%84%E8%A1%8C%E3%81%88" target="_new" rel="noopener noreferrer">や行え</a>',
+                '<a href="http://daijirin.dual-d.net/extra/hiragana.html" target="_new" rel="noopener noreferrer">大辞林　平仮名</a>',
+                '<a href="http://daijirin.dual-d.net/extra/katakana.html" target="_new" rel="noopener noreferrer">大辞林　片仮名</a>'
+            ];
+
+            const as_KANA = [
+                'ア', 'イ', 'ウ', 'エ', 'オ',
+                'カ', 'キ', 'ク', 'ケ', 'コ',
+                'サ', 'シ', 'ス', 'セ', 'ソ',
+                'タ', 'チ', 'ツ', 'テ', 'ト',
+                'ナ', 'ニ', 'ヌ', 'ネ', 'ノ',
+                'ハ', 'ヒ', 'フ', 'ヘ', 'ホ',
+                'マ', 'ミ', 'ム', 'メ', 'モ',
+                'ヤ', '𛄠', 'ユ', '𛄡', 'ヨ',
+                'ラ', 'リ', 'ル', 'レ', 'ロ',
+                'ワ', 'ヰ', '𛄢', 'ヱ', 'ヲ',
+                'ン',
+                '𛀀'
+            ];
+
+            const as_HTML_BUTTON = [
+                '<button id="',
+                '">',
+                '</button>'
+            ];
+
+
+        /* 遵󠄁意蒐物 */
+            const obj_ANNOTATION_ARRAY = Object.freeze(
+                {
+                    text:   as_ANNOTATION_TEXT,
+                    image:  as_ANNOTATION_IMAGE,
+                    anchor: as_ANNOTATION_ANCHOR
+                }
+            );
+
+            const obj_KANA_EXPLAIN = Object.freeze(
+                {
+                    'ア':   '広辞苑曰ク「阿」ガ偏󠄁ノ略ナリト'+
+                            '片假名元字曰ク「㰳」ガ旁ノ略ナリト'+
+                            '<a href="http://daijirin.dual-d.net/extra/katakana.html" target="_new" rel="noopener noreferrer">大辞林　片仮名</a>'+
+                            'ヲ見ルニ應ニ「⻖」ノ正シカルベシ',
+                    'イ':   '広辞苑曰ク「伊」ガ偏󠄁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ウ':   '広辞苑曰ク「宇」ガ冠ナリト'+
+                            '片假名元字モ同ナリ',
+                    'エ':   '広辞苑曰ク「江」ガ旁ナリト'+
+                            '片假名元字モ同ナリ'+
+                            '明治六年󠄂刊行片山淳吉氏著「綴字篇」ニハ「丄」ガ若ク記󠄂載アリ',
+                    'オ':   '広辞苑曰ク「於」ガ偏󠄁ナリト'+
+                            '片假名元字モ同ナリ'+
+                            '「於」ノ俗ニ「扵」ト作シタルヲ云フナリ',
+
+                    'カ':   '広辞苑曰ク「加」ガ偏󠄁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'キ':   '広辞苑曰ク「幾」ガ草體ノ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ク':   '広辞苑曰ク「久」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ケ':   '広辞苑曰ク「介」ガ略ナリト'+
+                            '片假名元字曰ク「啓」ガ「⺙」ノ略ナリト'+
+                            '<a href="http://daijirin.dual-d.net/extra/katakana.html" target="_new" rel="noopener noreferrer">大辞林　片仮名</a>'+
+                            'ヲ見ルニ應ニ「介」ノ正シカルベシ',
+                    'コ':   '広辞苑曰ク「己」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'サ':   '広辞苑曰ク「散」ガ草體ノ略或ハ「薩」ガ冠ナリト'+
+                            '片假名元字曰ク「草」ガ冠ナリト',
+                    'シ':   '広辞苑曰ク「之」ガ草體ノ轉ナリト'+
+                            '片假名元字曰ク「𣁸」ガ旁ノ略ナリト'+
+                            '<a href="http://yedict.com/" target="_new" rel="noopener noreferrer">葉典</a>'+
+                            '曰ク「𣁸」ハ臺灣ニ見ル人名用字ナリト',
+                    'ス':   '広辞苑曰ク「須」ガ旁ノ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'セ':   '広辞苑曰ク「世」ガ草體ノ轉ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ソ':   '広辞苑曰ク「曾」ガ初二畫ナリト'+
+                            '片假名元字モ同ナリ'+
+                            '「曾」ノ俗ニ「曽」ト作シタルヲ云フナリ',
+
+                    'タ':   '広辞苑曰ク「多」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'チ':   '広辞苑曰ク「千」ナリト'+
+                            '片假名元字曰ク「知」ガ偏󠄁ノ略ナリト',
+                    'ツ':   '広辞苑曰ク「州」ガ略ナリト'+
+                            '片假名元字曰ク「圖」ガ略ナリト'+
+                            '「圖」ノ俗ニ「図」ト作シタルヲ云フナリ',
+                    'テ':   '広辞苑曰ク「天」ガ略ナリト'+
+                            '片假名元字曰ク「亭」ガ略ナリト',
+                    'ト':   '広辞苑曰ク「止」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'ナ':   '広辞苑曰ク「奈」ガ略ナリト'+
+                            '片假名元字曰ク「南」ガ略ナリト',
+                    'ニ':   '広辞苑曰ク「二」ナリト'+
+                            '片假名元字曰ク「仁」ガ旁ナリト',
+                    'ヌ':   '広辞苑曰ク「奴」ガ旁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ネ':   '広辞苑曰ク「禰」ガ偏󠄁ナリト'+
+                            '片假名元字モ同ナリ'+
+                            '「⺬」ノ俗ニ「⺭」ト作シタルヲ云フナリ',
+                    'ノ':   '広辞苑曰ク「乃」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'ハ':   '広辞苑曰ク「八」ナリト'+
+                            '片假名元字曰ク「半󠄁」ガ略ナリト',
+                    'ヒ':   '広辞苑曰ク「比」ガ旁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'フ':   '広辞苑曰ク「不」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ヘ':   '広辞苑曰ク「部」ガ旁ノ草體ヨリ轉ズト'+
+                            '片假名元字曰ク「邊」ガ繞ノ略ナリト',
+                    'ホ':   '広辞苑曰ク「保」ガ旁ノ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'マ':   '広辞苑曰ク「末」ガ略或ハ「万」ガ略ナリト'+
+                            '片假名元字曰ク「末」ガ略ナリト',
+                    'ミ':   '広辞苑曰ク「三」ナリト'+
+                            '片假名元字曰ク「美」ガ略ナリト',
+                    'ム':   '広辞苑曰ク「牟」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'メ':   '広辞苑曰ク「女」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'モ':   '広辞苑曰ク「毛」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'ヤ':   '広辞苑曰ク「也」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    '𛄠':    '片假名元字曰ク「以」ガ略ナリト',
+                    'ユ':   '広辞苑曰ク「由」ガ略ナリト'+
+                            '片假名元字曰ク「⿱￢丂」ガ略ナリト'+
+                            '按ズルニ「兮」ナラン',
+                    '𛄡':    '片假名元字曰ク「衣」ガ略ナリト',
+                    'ヨ':   '広辞苑曰ク「與」ガ轉ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'ラ':   '広辞苑曰ク「良」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'リ':   '広辞苑曰ク「利」ガ旁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ル':   '広辞苑曰ク「流」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+                    'レ':   '広辞苑曰ク「礼」ガ旁ナリト'+
+                            '片假名元字モ同ナリ',
+                    'ロ':   '広辞苑曰ク「呂」ガ略ナリト'+
+                            '片假名元字モ同ナリ',
+
+                    'ワ':   '広辞苑曰ク「和」ガ旁ノ轉或ハ「〇」ガ轉ナリト'+
+                            '片假名元字曰ク「輪」ガ略ナリト',
+                    'ヰ':   '広辞苑曰ク「井」ガ略ナリト'+
+                            '片假名元字曰ク「韋󠄂」ガ略ナリト',
+                    '𛄢':    '片假名元字曰ク「宇」ガ略ナリト'+
+                            '嘗テ「あ行う」ヲ表スニ用ヰタリ',
+                    'ヱ':   '広辞苑曰ク「惠」ガ略ナリト'+
+                            '片假名元字曰ク「畫」ガ略ナリト',
+                    'ヲ':   '広辞苑曰ク「乎」ガ略ナリト'+
+                            '片假名元字曰ク「緖」ガ略ナリト',
+
+                    'ン':   '広辞苑曰ク「ꣲ」等ノ菩提點ニ端ヲ發スル撥音ノ訓點或ハ「尓」ガ略或ハ「二」ガ轉ナリト'+
+                            '片假名元字ハ字母ヲ載セズ',
+
+                    '𛀀':   '按ズルニ「衣」ガ略ナルベシ'+
+                            '嘗テ「あ行え」ヲ表スニ用ヰタリ',
+                }
+            );
+            
+
+        /* 函數 */
+            function setHeading() {
+                const elementHeading =
+                document
+                .getElementById('h2');
+                
+                const sCurrentTextContent =
+                elementHeading
+                .textContent;
+
+                if (sCurrentTextContent == '註') {
+                    elementHeading
+                    .textContent = '表';
+                }
+                else if (sCurrentTextContent == '表') {
+                    elementHeading
+                    .textContent = '註';
+                }
+            }
+
+            function changeClass() {
+                const elementDivision =
+                document
+                .getElementById('main');
+
+                const sCurrentClass =
+                elementDivision
+                .getAttribute('class');
+
+                if (sCurrentClass == 'annotation') {
+                    elementDivision
+                    .setAttribute(
+                        'class',
+                        'table'
+                    );
+                }
+                else if (sCurrentClass == 'table') {
+                    elementDivision
+                    .setAttribute(
+                        'class',
+                        'annotation'
+                    );
+                }
+            }
+            
+            function clearInnerHTML(sArgId) {
+                document
+                .getElementById(sArgId)
+                .innerHTML = '';
+            }
+
+            
+            function putParagraph(sArgId, sArgParagraph) {
+                document
+                .getElementById(sArgId)
+                .insertAdjacentHTML(
+                    'beforeEnd',
+                    '<p>'+sArgParagraph+'</p>'
+                );
+            }
+            
+            
+            function setAnnotation() {
+                for (const sProperty in obj_ANNOTATION_ARRAY) {
+                    for (const sElement of obj_ANNOTATION_ARRAY[sProperty]) {
+                        putParagraph('main', sElement);
+                    }
+                }
+            }
+
+
+            function clickButton(sArgKana) {
+                clearInnerHTML('explain');
+
+                putParagraph(
+                    'explain',
+                    '撰字：' + sArgKana
+                );
+
+                putParagraph(
+                    'explain',
+                    '槪說：' + obj_KANA_EXPLAIN[sArgKana]
+                );
+            }
+            
+            function setTable() {
+                for (const sKana of as_KANA) {
+                    const sHTMLButton =
+                    as_HTML_BUTTON[0] +
+                    sKana +
+                    as_HTML_BUTTON[1] +
+                    sKana +
+                    as_HTML_BUTTON[2];
+
+                    document
+                    .getElementById('main')
+                    .insertAdjacentHTML(
+                        'beforeEnd',
+                        sHTMLButton
+                    );
+                
+                    document
+                    .getElementById(sKana)
+                    .addEventListener(
+                        'click',
+                        function() {
+                            clickButton(this.id);
+                        }
+                    );
+                }
+            }
+
+            function setExplain() {
+                document
+                .getElementById('main')
+                .insertAdjacentHTML(
+                    'afterEnd',
+                    '<div id="explain"></div>'
+                );
+            }
+
+            function removeExplain() {
+                document
+                .getElementById('explain')
+                .remove();
+            }
+            
+
+            document
+            .getElementById('select')
+            .onchange =
+            function () {
+                setHeading();
+                changeClass();
+                clearInnerHTML('main');
+
+                if (this.value == 'annotation') {
+                    removeExplain();
+                    setAnnotation();
+                }
+                else if (this.value == 'table') {
+                    setTable();
+                    setExplain();
+                }
+            }
+
+            window
+            .addEventListener(
+                'load',
+                setAnnotation
+            );
+        </script>
+    </body>
+</html>

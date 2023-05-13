@@ -1,2 +1,3 @@
 # Japanese_Kana_App
- 假字瀏覽
+
+假字瀏覽

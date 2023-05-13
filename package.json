@@ -1,0 +1,21 @@
+{
+  "name": "kana_app",
+  "version": "1.0.0",
+  "description": "app of kana",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager .",
+    "publish": "electron-forge publish",
+    "make": "electron-forge make",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "iroha",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/publisher-github": "^6.1.1",
+    "electron": "^24.1.3",
+    "electron-packager": "^17.1.1"
+  }
+}
