@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>補遺󠄁</title>
+    </head>
+    <body>
+        <header class="header" id="header"></header>
+
+        <h1>補遺󠄁</h1>
+        <p>
+            <a href="https://glyphwiki.org/wiki/Group:zr12r_kaharinana" target="_new" rel="noopener noreferrer">zr12r_kaharinana</a>
+            ニテ幾許ノ外字ヲ見ルヲ淺學ノ慚愧ヲ省ズ纔カ乍ラモ其ノ何タルカヲ記󠄂ス
+        </p>
+
+        <select name="select" id="select">
+            <option value="exKana" selected>變體假字</option>
+            <option value="simplifiedKana">合略假字</option>
+            <option value="JapaneseKanji">和製漢字</option>
+            <option value="symbol">記󠄂號</option>
+            <option value="taiwaneseTone">臺灣語平󠄁仄</option>
+            <option value="shinobiIroha">忍󠄁いろは</option>
+        </select>
+        
+        <h2 id="headingTitle"></h2>
+        
+        <div id="explain">
+
+        </div>
+
+        <script src="script/makeHeader.js"></script>
+
+        <script>
+            /* 分部 */
+            class CNameAndObject {
+            /* 變數 */
+                #sHeadingTitle;
+                #obj_DataObject;
+
+            /* 立函數 */
+                constructor(
+                    sArgHeadingTitle,
+                    obj_ArgDataObject
+                ) {
+                    this.#sHeadingTitle =
+                    sArgHeadingTitle;
+
+                    this.#obj_DataObject =
+                    obj_ArgDataObject;
+                }
+
+            /* 得函數 */
+                get get_sHeadingTitle() {
+                    return this.#sHeadingTitle;
+                }
+
+                get get_obj_DataObject() {
+                    return this.#obj_DataObject;
+                }
+            }
+
+            class CPublicDataCollections {
+            /* 遵󠄁意蒐物 */
+                /* 變體假字 */
+                #obj_EX_KANA = Object.freeze(
+                    {
+                        Unicode: Object.freeze({
+                            ナリ: Object.freeze({
+                                characters: [
+                                    '𬻿',
+                                    '𬼂'
+                                ],
+                                text: '「なり」ト讀ム「也」ガ草體ナリ'
+                            }),
+                            シテ: Object.freeze({
+                                character: '𬼀',
+                                text: '「して」ト讀ム「爲」ガ俗字「為」ノ略ナリ𫦹「しめ」ト讀ムヿ毋レ'
+                            })
+                        }),
+                        PrivateCode: Object.freeze({
+                            ね: Object.freeze({
+                                character: '',
+                                text: '「子」ヲ字母トスル假字「ね」ナリ'
+                            })
+                        })
+                    }
+                );
+                
+                /* 合略假字 */
+                #obj_SIMPLIFIED_KANA = Object.freeze(
+                    {
+                        Unicode: Object.freeze({
+                            より: Object.freeze({
+                                character: 'ゟ',
+                                text: '「より」ヨリ作ス合略假字ナリ'
+                            }),
+                            コト: Object.freeze({
+                                character: 'ヿ',
+                                text: '「事」ガ略字或ハ「コト」ヨリ作ス合略假字ナリ'
+                            }),
+                            トモ: Object.freeze({
+                                character: '𪜈',
+                                text: '「トモ」ヨリ作ス合略假字ナリ'
+                            })
+                        }),
+                        PrivateCode: Object.freeze({
+                            かしこ: Object.freeze({
+                                character: '',
+                                text: '「𛀙しこ」ヨリ作ス女子ノ用ヰル書翰文字ナリ手紙ノ終ニ添フル語ニシテ「畏こ」ノ意ナリ'
+                            }),
+                            さま: Object.freeze({
+                                character: '',
+                                text: '「さ𛃆」ヨリ作ス合略假字ナリ<a href="https://dl.ndl.go.jp/pid/2534130/1/14" target="_new" rel="noopener noreferrer">遊󠄁子方言</a>等ニ見ル'
+                            }),
+                            参らせ候: Object.freeze({
+                                character: '',
+                                text: '「まいらせ候」ヨリ作ス書翰文字ナリ「参る」ハ「まゐる」ナレ𪜈此字ハ「まいらせ」ヲ崩󠄁シタルト言フ'
+                            }),
+                            こと: Object.freeze({
+                                character: '󷲰',
+                                text: '「こと」ヨリ作ス合略假字ナリ'
+                            }),
+                            トテ: Object.freeze({
+                                character: '󷲳',
+                                text: '「トテ」ヨリ作ス合略假字ナリ'
+                            }),
+                            トイフ: Object.freeze({
+                                character: '󷲴',
+                                text: '「ト云」ヨリ作ス合略假字ナリ'
+                            }),
+                            ヨリ: Object.freeze({
+                                character: '󷲵',
+                                text: '「ヨリ」ヨリ作ス合略假字ナリ'
+                            })
+                        })
+                    }
+                );
+
+                /* 和製漢字 */
+                #obj_JAPANESE_KANJI = Object.freeze(
+                    {
+                        しめ: Object.freeze({
+                            characters: [
+                                '〆',
+                                '乄'
+                            ],
+                            text: '「しめ」ト訓ム和製漢字ナリト言フ解字ハ諸󠄁說アリテ未定ナリ'
+                        })
+                    }
+                );
+
+                /* 記󠄂號 */
+                #obj_SYMBOL = Object.freeze(
+                    {
+                        ます: Object.freeze({
+                            character: '〼',
+                            text: '「ます」ト讀ム記󠄂號ナリ助動詞ニモ「益󠄁」ノ意ニモ用ヰル'
+                        }),
+                        庵點: Object.freeze({
+                            character: '〽',
+                            text: '庵點ナリ歌詞ノ首ニ附シテ散文ト別ナルコトヲ示ス'
+                        }),
+                        踊り字: Object.freeze({
+                            characters: [
+                                '々',
+                                'ヽ',
+                                'ヾ',
+                                'ゝ',
+                                'ゞ',
+                                '〃',
+                                '〻',
+                                '〱',
+                                '〲',
+                                '〳',
+                                '〴',
+                                '〵'
+                            ],
+                            text: '繰返󠄁スヿヲ表ス記󠄂號ナリ電子符號上「〳」「〴」ハ直後ニ「〵」ヲ置テ「〳〵」「〴〵」ト用ヰルト雖モ結構󠄁ハ保障サレズ'
+                        }),
+                        數: Object.freeze({
+                            characters: Object.freeze({
+                                一: '𝍲',
+                                二: '𝍳',
+                                三: '𝍴',
+                                四: '𝍵',
+                                五: '𝍶'
+                            }),
+                            text: '數ヲ算フルニ用ヰル記󠄂號ナリ'
+                        })
+                    }
+                );
+
+                /* 臺灣語平󠄁仄 */
+                #obj_TAIWANEZE_TONE = Object.freeze(
+                    {
+                        characters: Object.freeze({
+                            常音: Object.freeze({
+                                上聲: '𚿰',
+                                上去: '𚿱',
+                                上入: '𚿲',
+                                下平󠄁: '𚿳',
+                                下去: '𚿵',
+                                下入: '𚿶'
+                            }),
+                            鼻󠄁音: Object.freeze({
+                                上平󠄁: '𚿷',
+                                上聲: '𚿸',
+                                上去: '𚿹',
+                                上入: '𚿺',
+                                下平󠄁: '𚿻',
+                                下去: '𚿽',
+                                下入: '𚿾'
+                            })
+                        }),
+                        text: '帝󠄁國時代ニ於テ臺灣語ヲ假字ニ依テ表サントスル記󠄂號ノ一ナリ臺灣語ノ音韻ヲ詳ラカニ學バント欲サバ宜シク他書ニ頼ムベシ：<a href="https://ja.wikipedia.org/wiki/%E5%8F%B0%E6%B9%BE%E8%AA%9E%E4%BB%AE%E5%90%8D" target="_new" rel="noopener noreferrer">台湾語仮名</a>'
+                    }
+                );  
+
+                /*
+                    忍󠄁いろは
+                    已下ニ臚列スルガ如ク
+                    𲄬ハ「いろは歌」ニモ「ン」ニモ含マレズ
+                    https://www.touken-world.jp/tips/52387/
+                    曰ク「゛゜」ト
+                    http://saizou.makibisi.net/sinobi/iroha.html
+                    曰ク「、。」ト
+                */
+                #obj_SHINOBI_IROHA = Object.freeze(
+                    {
+                        characters: Object.freeze({
+                            い: '栬',
+                            ろ: '𰞑',
+                            は: '𱖥',
+                            に: '銫',
+                            ほ: '𣴊',
+                            へ: '𠈜',
+                            と: '𨉆',
+
+                            ち: '棈',
+                            り: '𭴼',
+                            ぬ: '埥',
+                            る: '錆',
+                            を: '淸',
+                            わ: '倩',
+                            か: '𲄤',
+
+                            よ: '橫',
+                            た: '熿',
+                            れ: '墴',
+                            そ: '鐄',
+                            つ: '潢',
+                            ね: '僙',
+                            な: '𨊇',
+
+                            ら: '𪲒',
+                            む: '焃',
+                            う: '𡋽',
+                            ゐ: '䤲',
+                            の: '浾',
+                            お: '𪜻',
+                            く: '𲄠',
+
+                            や: '柏',
+                            ま: '𤇢',
+                            け: '𡊚',
+                            ふ: '鉑',
+                            こ: '泊',
+                            え: '伯',
+                            て: '𲄜',
+
+                            あ: '𣘸󠄂',
+                            さ: '㷵',
+                            き: '𱗻',
+                            ゆ: '𨭆',
+                            め: '潶',
+                            み: '𠎁',
+                            し: '𨊂',
+
+                            ゑ: '橴',
+                            ひ: '𱬒',
+                            も: '𱗺',
+                            せ: '𲇡',
+                            す: '𬈶',
+                            ん: '𱏑',
+                            ゛゜: '𲄬'
+                        }),
+                        text: '「萬川集海」ニ有ルモ何タルカノ記󠄂載ハアラズ後人曰ク「いろは歌」ニ從テ作セル假字ナルベシト'
+                    }
+                );
+
+                #aCNAO_NAME_AND_OBJECT = [
+                    new CNameAndObject(
+                        '變體假字',
+                        this.#obj_EX_KANA
+                    ),
+                    new CNameAndObject(
+                        '合略假字',
+                        this.#obj_SIMPLIFIED_KANA
+                    ),
+                    new CNameAndObject(
+                        '和製漢字',
+                        this.#obj_JAPANESE_KANJI
+                    ),
+                    new CNameAndObject(
+                        '記󠄂號',
+                        this.#obj_SYMBOL
+                    ),
+                    new CNameAndObject(
+                        '臺灣語平󠄁仄',
+                        this.#obj_TAIWANEZE_TONE
+                    ),
+                    new CNameAndObject(
+                        '忍󠄁いろは',
+                        this.#obj_SHINOBI_IROHA
+                    )
+                ];
+
+            /* 立函數 */
+                constructor() {}
+
+            /* 得函數 */
+                get get_aCNAO_NAME_AND_OBJECT() {
+                    return this.#aCNAO_NAME_AND_OBJECT;
+                }
+            }
+            
+        /* 變數 */
+            const PUBLIC_DATA_COLLECTIONS =
+            new CPublicDataCollections();
+
+
+        /* 排列 */
+            const a_EXPLAIN_TEXT = [
+                '字：',
+                '槪說：'
+            ];
+            
+        /* 函數 */
+            function clearInnerHTML(sArgId) {
+                document
+                .getElementById(sArgId)
+                .innerHTML = '';
+            }
+        
+            function setHeading(iArgIndex) {
+                const sTextContent =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[iArgIndex]
+                .get_sHeadingTitle;
+                
+                const sHTMLHeading =
+                '<h2>' +
+                sTextContent +
+                '</h2>';
+                
+                document
+                .getElementById('headingTitle')
+                .insertAdjacentHTML(
+                    'afterBegin',
+                    sHTMLHeading
+                );
+            }
+
+
+            function explainCharacter(sArgCharacter) {
+                const sText =
+                a_EXPLAIN_TEXT[0] +
+                sArgCharacter;
+
+                return sText;
+            }
+            
+            function explainText(sArgText) {
+                const sText =
+                a_EXPLAIN_TEXT[1] +
+                sArgText;
+
+                return sText;
+            }
+
+            function setExPlainText(asArgHTMLExplain) {
+                for (const sText of asArgHTMLExplain) {
+                    document
+                    .getElementById('explain')
+                    .insertAdjacentHTML(
+                        'beforeEnd',
+                        sText
+                    );
+                }
+            }
+
+            function enumerateCharacterFromObject(obj_ArgData) {
+                let sCharacters = '';
+                let iCount = 1;
+
+                for (const property in obj_ArgData) {
+                    if (iCount == Object.keys(obj_ArgData).length) {
+                        sCharacters +=
+                        obj_ArgData[property];
+                    } else {
+                        sCharacters +=
+                        obj_ArgData[property] +
+                        '、';
+
+                        iCount++;
+                    }
+                }
+
+                return sCharacters;
+            }
+
+            function enumerateCharacterFromArray(aArgData) {
+                let sCharacters = '';
+
+                for (let index = 0; index < aArgData.length; index++) {
+                    if (index == aArgData.length - 1) {
+                        sCharacters +=
+                        aArgData[index];
+                    } else {
+                        sCharacters +=
+                        aArgData[index] +
+                        '、';
+                    }
+                }
+
+                return sCharacters;
+            }
+            
+            function makeTableHeaderCell(sArgTextContent) {
+                return ('<th>' + sArgTextContent + '</th>');
+            }
+            
+            
+            function setExKana() {
+                /* #obj_EX_KANA */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[0]
+                .get_obj_DataObject;
+
+                const asHTMLExplain = [
+                    '<h3>Unicode採󠄁錄字</h3>',
+
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromArray(
+                            obj_data['Unicode']['ナリ']['characters']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['Unicode']['ナリ']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['Unicode']['シテ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['Unicode']['シテ']['text']
+                    ) +
+                    '</p>',
+
+                    '<h3>Unicode外字</h3>',
+                    '<p>未ダUnicodeニ採󠄁錄セラレザル字ナレバ一般ニハ文書ニ用ヰルヿヲ得ズ</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['ね']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['ね']['text']
+                    ) +
+                    '</p>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+            function setSimplifiedKana() {
+                /* #obj_SIMPLIFIED_KANA */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[1]
+                .get_obj_DataObject;
+
+                const asHTMLExplain = [
+                    '<h3>Unicode採󠄁錄字</h3>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['Unicode']['より']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['Unicode']['より']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['Unicode']['コト']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['Unicode']['コト']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['Unicode']['トモ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['Unicode']['トモ']['text']
+                    ) +
+                    '</p>',
+
+                    '<h3>Unicode外字</h3>',
+                    '<p>未ダUnicodeニ採󠄁錄セラレザル字ナレバ一般ニハ文書ニ用ヰルヿヲ得ズ</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['かしこ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['かしこ']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['さま']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['さま']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['参らせ候']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['参らせ候']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['こと']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['こと']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['トテ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['トテ']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['トイフ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['トイフ']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['PrivateCode']['ヨリ']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['PrivateCode']['ヨリ']['text']
+                    ) +
+                    '</p>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+            function setJapaneseKanji() {
+                /* #obj_JAPANESE_KANJI */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[2]
+                .get_obj_DataObject;
+
+                const asHTMLExplain = [
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromArray(
+                            obj_data['しめ']['characters']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['しめ']['text']
+                    ) +
+                    '</p>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+            function setSymbol() {
+                /* #obj_SYMBOL */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[3]
+                .get_obj_DataObject;
+
+                const asHTMLExplain = [
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['ます']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['ます']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        obj_data['庵點']['character']
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['庵點']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromArray(
+                            obj_data['踊り字']['characters']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['踊り字']['text']
+                    ) +
+                    '</p>',
+
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromObject(
+                            obj_data['數']['characters']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['數']['text']
+                    ) +
+                    '</p>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+            function setTaiwaneseTone() {
+                /* #obj_TAIWANEZE_TONE */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[4]
+                .get_obj_DataObject;
+
+                let asTableHeaderCell = [];
+                for (const sKey in obj_data['characters']['鼻󠄁音']) {
+                    asTableHeaderCell
+                    .push(sKey);
+                }
+                
+                const asHTMLExplain = [
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromObject(
+                            obj_data['characters']['常音']
+                        ) +
+                        '、' +
+                        enumerateCharacterFromObject(
+                            obj_data['characters']['鼻󠄁音']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['text']
+                    ) +
+                    '</p>' +
+
+                    '<table class="taiwaneseTone">' +
+                        '<tbody>' +
+                            '<tr>' +
+                                '<th></th>' +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[0]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[1]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[2]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[3]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[4]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[1]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[5]
+                                ) +
+                                makeTableHeaderCell(
+                                    asTableHeaderCell[6]
+                                ) +
+                            '</tr>' +
+                            '<tr>' +
+                                '<th>常音</th>' +
+                                '<th></th>' +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['上聲']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['上去']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['上入']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['下平󠄁']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['上聲']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['下去']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['常音']['下入']
+                                ) +
+                            '</tr>' +
+                            '<tr>' +
+                                '<th>鼻󠄁音</th>' +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['上平󠄁']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['上聲']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['上去']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['上入']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['下平󠄁']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['上聲']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['下去']
+                                ) +
+                                makeTableHeaderCell(
+                                    obj_data['characters']['鼻󠄁音']['下入']
+                                ) +
+                            '</tr>' +
+                        '</tbody>' +
+                    '</table>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+            function setShinobiIroha() {
+                /* #obj_SHINOBI_IROHA */
+                const obj_data =
+                PUBLIC_DATA_COLLECTIONS
+                .get_aCNAO_NAME_AND_OBJECT[5]
+                .get_obj_DataObject;
+
+                let sShinobiIroha = '';
+                let iCount = 1;
+                for (sIroha in obj_data['characters']) {
+                    if (iCount == 1) {
+                        sShinobiIroha +=
+                        '<p>' +
+                        obj_data['characters'][sIroha];
+
+                        iCount++;
+                    }
+                    else if (iCount == 7) {
+                        sShinobiIroha +=
+                        obj_data['characters'][sIroha] +
+                        '</p>';
+                        
+                        iCount = 1;
+                    }
+                    else {
+                        sShinobiIroha +=
+                        obj_data['characters'][sIroha];
+
+                        iCount++;
+                    }
+                }
+                
+                const asHTMLExplain = [
+                    '<p>' +
+                    explainCharacter(
+                        enumerateCharacterFromObject(
+                            obj_data['characters']
+                        )
+                    ) +
+                    '</p>',
+                    '<p>' +
+                    explainText(
+                        obj_data['text']
+                    ) +
+                    '</p>' +
+
+                    '<p></p>' +
+
+                    '<span class="shinobiIroha">' +
+                        sShinobiIroha +
+                    '</span>'
+                ];
+
+                setExPlainText(asHTMLExplain);
+            }
+
+
+            document
+            .getElementById('select')
+            .onchange =
+            function () {
+                clearInnerHTML('headingTitle');
+                clearInnerHTML('explain');
+                switch(this.value) {
+                    case 'exKana':
+                        setHeading(0);
+                        setExKana();
+                        break;
+
+                    case 'simplifiedKana':
+                        setHeading(1);
+                        setSimplifiedKana();
+                        break;
+
+                    case 'JapaneseKanji':
+                        setHeading(2);
+                        setJapaneseKanji();
+                        break;
+
+                    case 'symbol':
+                        setHeading(3);
+                        setSymbol();
+                        break;
+
+                    case 'taiwaneseTone':
+                        setHeading(4);
+                        setTaiwaneseTone();
+                        break;
+
+                    case 'shinobiIroha':
+                        setHeading(5);
+                        setShinobiIroha();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            window
+            .addEventListener(
+                'load',
+                function() {
+                    setHeading(0);
+                    setExKana();
+                }
+            );
+        </script>
+    </body>
+</html>

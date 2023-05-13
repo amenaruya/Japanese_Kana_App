@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>平󠄁假字</title>
+    </head>
+    <body>
+        <header class="header" id="header"></header>
+        
+        <div class="table" id="table"></div>
+
+        <div id="explain">
+            <p id="kana"></p>
+            <p id="originalCharacter"></p>
+            <p id="supplement"></p>
+        </div>
+
+        <br>
+
+        <div id="exExplain">
+            <p id="exKana"></p>
+            <p id="exOriginalCharacter"></p>
+            <p id="exSupplement"></p>
+        </div>
+
+        <div class="exTable" id="exTable"></div>
+
+        <script src="script/makeHeader.js"></script>
+        <script>
+        /* 排列 */
+            const as_KANA = [
+                'あ', 'い', 'う', 'え', 'お',
+                'か', 'き', 'く', 'け', 'こ',
+                'さ', 'し', 'す', 'せ', 'そ',
+                'た', 'ち', 'つ', 'て', 'と',
+                'な', 'に', 'ぬ', 'ね', 'の',
+                'は', 'ひ', 'ふ', 'へ', 'ほ',
+                'ま', 'み', 'む', 'め', 'も',
+                'や', '𛀆', 'ゆ', '𛀁', 'よ',
+                'ら', 'り', 'る', 'れ', 'ろ',
+                'わ', 'ゐ', '𛄟', 'ゑ', 'を',
+                'ん'
+            ];
+
+            const as_HTML_BUTTON = [
+                '<button id="',
+                '">',
+                '</button>'
+            ];
+
+            const as_ID = [
+                'kana',
+                'originalCharacter',
+                'supplement',
+                'exKana',
+                'exOriginalCharacter',
+                'exSupplement'
+            ];
+
+        /* 遵󠄁意蒐物 */
+            /*
+            上代ニ限ラズ音韻ノ悉ク明瞭トナレルヿハナク
+            子音ノ如何ヤ
+            母音ノ奈何ヤノ
+            未ダ諸說有テ唯一事實ノ確󠄂定セザルハ
+            當然吾人ノ知ル攸ナリ
+            然而令和ノ御代ニ於テ一般ニ普󠄁及󠄁シ居ル表記󠄂
+            母音：a i u e o
+            子音：k s t n h m y r w
+            ニ對シテ或ル說ヲ幾許用ヰ
+            サ行：s
+            タ行：t
+            ハ行：p
+            ヲ一貫シ粤ニRome表記󠄂ト定義セリ
+            */
+            const obj_KANA_TO_ROME = Object.freeze(
+                {
+                    あ: 'a',
+                    め: 'me',
+                
+                    つ: 'tu',
+                    ち: 'ti',
+
+                    ほ: 'po',
+                    し: 'si',
+
+                    そ: 'so',
+                    ら: 'ra',
+                
+                    や: 'ya',
+                    ま: 'ma',
+                
+                    か: 'ka',
+                    は: 'pa',
+                
+                    み: 'mi',
+                    ね: 'ne',
+
+                    た: 'ta',
+                    に: 'ni',
+
+                    く: 'ku',
+                    も: 'mo',
+
+                    き: 'ki',
+                    り: 'ri',
+
+                    む: 'mu',
+                    ろ: 'ro',
+
+                    こ: 'ko',
+                    け: 'ke',
+
+                    ひ: 'pi',
+                    と: 'to',
+
+                    い: 'i',
+                    ぬ: 'nu',
+
+                    う: 'u',
+                    へ: 'pe',
+
+                    す: 'su',
+                    ゑ: 'we',
+
+                    ゆ: 'yu',
+                    わ: 'wa',
+
+                    さ: 'sa',
+                    る: 'ru',
+
+                    お: 'o',
+                    ふ: 'pu',
+                    せ: 'se',
+                    よ: 'yo',
+
+                    え: 'e', 
+                    の: 'no',
+                    𛀁: 'ye',
+                    を: 'wo',
+
+                    な: 'na',
+                    れ: 're', 
+                    ゐ: 'wi', 
+                    て: 'te',
+
+                    𛀆: 'yi',
+
+                    '𛄟': 'wu',
+
+                    ん: 'n'
+                }
+            );
+            
+            /*
+            槪說ニハ一切ノ出典ヲ記󠄂スヲ得ズ
+            單ニ孰レノ書ナリカヲ憶エ居ランガタメナリ
+            */
+            const obj_ROME_TO_KANA = Object.freeze(
+                {
+                    a: {
+                        kana: "あ",
+                        originalCharacter: "安",
+                        supplement: "「あ」音ニ於テ現行シタル假字"
+                    },
+                    i: {
+                        kana: "い",
+                        originalCharacter: "以",
+                        supplement: "「い」音ニ於テ現行シタル假字"
+                    },
+                    u: {
+                        kana: "う",
+                        originalCharacter: "宇",
+                        supplement: "「う」音ニ於テ現行シタル假字"
+                    },
+                    e: {
+                        kana: "え",
+                        originalCharacter: "衣",
+                        supplement: "「え」音ニ於テ現行シタル假字"
+                    },
+                    o: {
+                        kana: "お",
+                        originalCharacter: "於",
+                        supplement: "「お」音ニ於テ現行シタル假字"
+                    },
+
+                    ka: {
+                        kana: "か",
+                        originalCharacter: "加",
+                        supplement: "「か」音ニ於テ現行シタル假字"
+                    },
+                    ki: {
+                        kana: "き",
+                        originalCharacter: "幾",
+                        supplement: "「き」音ニ於テ現行シタル假字"
+                    },
+                    ku: {
+                        kana: "く",
+                        originalCharacter: "久",
+                        supplement: "「く」音於テ現行シタル假字"
+                    },
+                    ke: {
+                        kana: "け",
+                        originalCharacter: "計",
+                        supplement: "「け」音ニ於テ現行シタル假字"
+                    },
+                    ko: {
+                        kana: "こ",
+                        originalCharacter: "己",
+                        supplement: "「こ」音ニ於テ現行シタル假字"
+                    },
+
+                    sa: {
+                        kana: "さ",
+                        originalCharacter: "左",
+                        supplement: "「さ」音ニ於テ現行シタル假字"
+                    },
+                    si: {
+                        kana: "し",
+                        originalCharacter: "之",
+                        supplement: "「し」音ニ於テ現行シタル假字"
+                    },
+                    su: {
+                        kana: "す",
+                        originalCharacter: "寸",
+                        supplement: "「す」音ニ於テ現行シタル假字"
+                    },
+                    se: {
+                        kana: "せ",
+                        originalCharacter: "世",
+                        supplement: "「せ」音ニ於テ現行シタル假字"
+                    },
+                    so: {
+                        kana: "そ",
+                        originalCharacter: "曾",
+                        supplement: "「そ」音ニ於テ現行シタル假字"
+                    },
+
+                    ta: {   
+                        kana: "た",
+                        originalCharacter: "太",
+                        supplement: "「た」音ニ於テ現行シタル假字"
+                    },
+                    ti: {
+                        kana: "ち",
+                        originalCharacter: "知",
+                        supplement: "「ち」音ニ於テ現行シタル假字"
+                    },
+                    tu: {
+                        kana: "つ",
+                        originalCharacter: "川",
+                        supplement: "「つ」音ニ於テ現行シタル假字"
+                    },
+                    te: {
+                        kana: "て",
+                        originalCharacter: "天",
+                        supplement: "「て」音ニ於テ現行シタル假字"
+                    },
+                    to: {
+                        kana: "と",
+                        originalCharacter: "止",
+                        supplement: "「と」音ニ於テ現行シタル假字"
+                    },
+
+                    na: {
+                        kana: "な",
+                        originalCharacter: "奈",
+                        supplement: "「な」音ニ於テ現行シタル假字"
+                    },
+                    ni: {
+                        kana: "に",
+                        originalCharacter: "仁",
+                        supplement: "「に」音ニ於テ現行シタル假字"
+                    },
+                    nu: {
+                        kana: "ぬ",
+                        originalCharacter: "奴",
+                        supplement: "「ぬ」音ニ於テ現行シタル假字"
+                    },
+                    ne: {
+                        kana: "ね",
+                        originalCharacter: "祢󠄅(禰)",
+                        supplement: "「ね」音ニ於テ現行シタル假字"
+                    },
+                    no: {
+                        kana: "の",
+                        originalCharacter: "乃",
+                        supplement: "「の」音ニ於テ現行シタル假字"
+                    },
+
+                    pa: {
+                        kana: "は",
+                        originalCharacter: "波",
+                        supplement: "「は」音ニ於テ現行シタル假字"
+                    },
+                    pi: {
+                        kana: "ひ",
+                        originalCharacter: "比",
+                        supplement: "「ひ」音ニ於テ現行シタル假字"
+                    },
+                    pu: {
+                        kana: "ふ",
+                        originalCharacter: "不",
+                        supplement: "「ふ」音ニ於テ現行シタル假字"
+                    },
+                    pe: {
+                        kana: "へ",
+                        originalCharacter: "部",
+                        supplement: "「へ」音ニ於テ現行シタル假字"
+                    },
+                    po: {
+                        kana: "ほ",
+                        originalCharacter: "保",
+                        supplement: "「ほ」音ニ於テ現行シタル假字"
+                    },
+
+                    ma: {
+                        kana: "ま",
+                        originalCharacter: "末",
+                        supplement: "「ま」音ニ於テ現行シタル假字"
+                    },
+                    mi: {
+                        kana: "み",
+                        originalCharacter: "美",
+                        supplement: "「み」音ニ於テ現行シタル假字"
+                    },
+                    mu: {
+                        kana: "む",
+                        originalCharacter: "武",
+                        supplement: "「む」音ニ於テ現行シタル假字"
+                    },
+                    me: {
+                        kana: "め",
+                        originalCharacter: "女",
+                        supplement: "「め」音ニ於テ現行シタル假字"
+                    },
+                    mo: {
+                        kana: "も",
+                        originalCharacter: "毛",
+                        supplement: "「も」音ニ於テ現行シタル假字"
+                    },
+
+                    ya: {
+                        kana: "や",
+                        originalCharacter: "也",
+                        supplement: "「や」音ニ於テ現行シタル假字"
+                    },
+                    yi: {
+                        kana: "𛀆",
+                        originalCharacter: "以",
+                        supplement: "元來「い」音ヲ表ス草假字ニシテ近󠄁代以降󠄃ハ變體假字ト云フ 詮ズルニ應ニ唯ニ空欄󠄃ヲ埋ムルガタメニノミ置󠄁カレタル字ナルベシ 按ズルニ「ヤ行イ段」ノ在ランカ無カランカハ古ニテモ傳ノ錯綜スル攸ナルベクシテ「い」音ヲ表ス字ノ區󠄃別ヲセンノ試ミヲ企レル古人ノ痕跡モアリ"
+                    },
+                    yu: {
+                        kana: "ゆ",
+                        originalCharacter: "由",
+                        supplement: "「ゆ」音ニ於テ現行シタル假字"
+                    },
+                    ye: {
+                        kana: "𛀁",
+                        originalCharacter: "江",
+                        supplement: "上代ニ於テ「ヤ行エ段」音ヲ表セル假字ナリト云フ 明治ノ御代ニ於テ學校敎育󠄂ニ現レ亦「え」音ヲ表スニ敢テ此字ヲ用ヰタル書モアリ"
+                    },
+                    yo: {
+                        kana: "よ",
+                        originalCharacter: "与(與)",
+                        supplement: "「よ」音ニ於テ現行シタル假字"
+                    },
+
+                    ra: {
+                        kana: "ら",
+                        originalCharacter: "良",
+                        supplement: "「ら」音ニ於テ現行シタル假字"
+                    },
+                    ri: {
+                        kana: "り",
+                        originalCharacter: "利",
+                        supplement: "「り」音ニ於テ現行シタル假字"
+                    },
+                    ru: {
+                        kana: "る",
+                        originalCharacter: "留",
+                        supplement: "「る」音ニ於テ現行シタル假字"
+                    },
+                    re: {
+                        kana: "れ",
+                        originalCharacter: "礼(禮)",
+                        supplement: "「れ」音ニ於テ現行シタル假字 礼ハ禮ガ古文ナリ"
+                    },
+                    ro: {
+                        kana: "ろ",
+                        originalCharacter: "呂",
+                        supplement: "「ろ」音ニ於テ現行シタル假字"
+                    },
+
+                    wa: {
+                        kana: "わ",
+                        originalCharacter: "和",
+                        supplement: "「わ」音ニ於テ現行シタル假字"
+                    },
+                    wi: {
+                        kana: "ゐ",
+                        originalCharacter: "爲",
+                        supplement: "「ゐ」音ニ於テ現行シタル假字"
+                    },
+                    wu: {
+                        kana: "𛄟",
+                        originalCharacter: "汙(污 汚)",
+                        supplement: "豊葦󠄂原ガ史上ニ「ワ行ウ段」ノ音ハ有ズシテ明治以後ノ學校敎育󠄂等ニテ須臾ニ現レタル字ナリト云フ"
+                    },
+                    we: {
+                        kana: "ゑ",
+                        originalCharacter: "惠",
+                        supplement: "「ゑ」音ニ於テ現行シタル假字"
+                    },
+                    wo: {
+                        kana: "を",
+                        originalCharacter: "遠󠄁",
+                        supplement: "「を」音ニ於テ現行シタル假字"
+                    },
+
+                    n: {
+                        kana: "ん",
+                        originalCharacter: "无(無)",
+                        supplement: "「ん」音ニ於テ現行シタル假字 无ハ無ノ奇字ナリ"
+                    }
+                }
+            );
+
+            const obj_EXTENDED_KANA = Object.freeze(
+                {
+                    あ: [
+                        {
+                            kana: "𛀂",
+                            originalCharacter: "安",
+                            supplement: "「あ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀃",
+                            originalCharacter: "愛",
+                            supplement: "「愛」字ヨリ作セル假字"
+                        },
+                        {   
+                            kana: "𛀄",
+                            originalCharacter: "阿",
+                            supplement: "「阿」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀅",
+                            originalCharacter: "惡",
+                            supplement: "「惡」字ヨリ作セル假字ニシテ「ア」𪜈「ヲ」𪜈用ヰル"
+                        }
+                    ],
+                    い: [
+                        {
+                            kana: "𛀆",
+                            originalCharacter: "以",
+                            supplement: "「い」字ガ異󠄃體ナリ"
+                        },
+                        {   
+                            kana: "𛀇",
+                            originalCharacter: "伊",
+                            supplement: "「伊」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀈",
+                            originalCharacter: "意",
+                            supplement: "「意」字ヨリ作セル假字ニシテ「イ」𪜈「オ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛀉",
+                            originalCharacter: "移",
+                            supplement: "「移」字ヨリ作セル假字"
+                        }
+                    ],
+                    う: [
+                        {
+                            kana: "𛀊",
+                            originalCharacter: "宇",
+                            supplement: "「う」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀋",
+                            originalCharacter: "宇",
+                            supplement: "「う」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀌",
+                            originalCharacter: "憂",
+                            supplement: "「憂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀍",
+                            originalCharacter: "有",
+                            supplement: "「有」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀎",
+                            originalCharacter: "雲",
+                            supplement: "「雲」字ヨリ作セル假字"
+                        }
+                    ],
+                    え: [
+                        {
+                            kana: "𛀏",
+                            originalCharacter: "盈",
+                            supplement: "「盈」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀐",
+                            originalCharacter: "緣",
+                            supplement: "「緣」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀑",
+                            originalCharacter: "衣",
+                            supplement: "「え」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀒",
+                            originalCharacter: "衣",
+                            supplement: "「え」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀓",
+                            originalCharacter: "要󠄁",
+                            supplement: "「要󠄁」字ヨリ作セル假字"
+                        }
+                    ],
+                    お: [
+                        {
+                            kana: "𛀔",
+                            originalCharacter: "於",
+                            supplement: "「お」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀕",
+                            originalCharacter: "於",
+                            supplement: "「お」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀖",
+                            originalCharacter: "隱",
+                            supplement: "「隱」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀈",
+                            originalCharacter: "意",
+                            supplement: "「意」字ヨリ作セル假字ニシテ「イ」𪜈「オ」𪜈用ヰル"
+                        }
+                    ],
+
+                    か: [
+                        {
+                            kana: "𛀗",
+                            originalCharacter: "佳",
+                            supplement: "「佳」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀘",
+                            originalCharacter: "加",
+                            supplement: "「か」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀙",
+                            originalCharacter: "可",
+                            supplement: "「可」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀚",
+                            originalCharacter: "可",
+                            supplement: "「可」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀛",
+                            originalCharacter: "嘉",
+                            supplement: "「嘉」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀜",
+                            originalCharacter: "我",
+                            supplement: "「我」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀝",
+                            originalCharacter: "歟",
+                            supplement: "「歟」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀞",
+                            originalCharacter: "賀",
+                            supplement: "「賀」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀟",
+                            originalCharacter: "閑",
+                            supplement: "「閑」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀠",
+                            originalCharacter: "香",
+                            supplement: "「香」字ヨリ作セル假字"
+                        },  
+                        {
+                            kana: "𛀡",
+                            originalCharacter: "駕",
+                            supplement: "「駕」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀢",
+                            originalCharacter: "家",
+                            supplement: "「家」字ヨリ作セル假字ニシテ「カ」𪜈「ケ」𪜈用ヰル"
+                        }
+                    ],
+                    き: [
+                        {
+                            kana: "𛀣",
+                            originalCharacter: "㐂(喜)",
+                            supplement: "「喜」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀤",
+                            originalCharacter: "幾",
+                            supplement: "「き」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀥",
+                            originalCharacter: "幾",
+                            supplement: "「き」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀦",
+                            originalCharacter: "支",
+                            supplement: "「支」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀧",
+                            originalCharacter: "木",
+                            supplement: "「木」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀨",
+                            originalCharacter: "祈",
+                            supplement: "「祈」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀩",
+                            originalCharacter: "貴",
+                            supplement: "「貴」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀪",
+                            originalCharacter: "起󠄁",
+                            supplement: "「起󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀻",
+                            originalCharacter: "期󠄁",
+                            supplement: "「期󠄁」字ヨリ作セル假字ニシテ「キ」𪜈「コ」𪜈用ヰル"
+                        }
+                    ],
+                    く: [
+                        {
+                            kana: "𛀫",
+                            originalCharacter: "久",
+                            supplement: "「く」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀬",
+                            originalCharacter: "久",
+                            supplement: "「く」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀭",
+                            originalCharacter: "九",
+                            supplement: "「九」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀮",
+                            originalCharacter: "供",
+                            supplement: "「供」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀯",
+                            originalCharacter: "俱",
+                            supplement: "「俱」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀰",
+                            originalCharacter: "具󠄁",
+                            supplement: "「具󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀱",
+                            originalCharacter: "求",
+                            supplement: "「求」字ヨリ作セル假字"
+                        }
+                    ],
+                    け: [
+                        {
+                            kana: "𛀲",
+                            originalCharacter: "介",
+                            supplement: "「介」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀳",
+                            originalCharacter: "介",
+                            supplement: "「介」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀴",
+                            originalCharacter: "希",
+                            supplement: "「希」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀵",
+                            originalCharacter: "氣",
+                            supplement: "「氣」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀶",
+                            originalCharacter: "計",
+                            supplement: "「け」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀷",
+                            originalCharacter: "遣󠄁",
+                            supplement: "「遣󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀢",
+                            originalCharacter: "家",
+                            supplement: "「家」字ヨリ作セル假字ニシテ「カ」𪜈「ケ」𪜈用ヰル"
+                        }
+                    ],
+                    こ: [
+                        {
+                            kana: "𛀸",
+                            originalCharacter: "古",
+                            supplement: "「古」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀹",
+                            originalCharacter: "故",
+                            supplement: "「故」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀺",
+                            originalCharacter: "許",
+                            supplement: "「許」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀻",
+                            originalCharacter: "期󠄁",
+                            supplement: "「期󠄁」字ヨリ作セル假字ニシテ「キ」𪜈「コ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛂘",
+                            originalCharacter: "子",
+                            supplement: "「子」字ヨリ作セル假字ニシテ「コ」𪜈「ネ」𪜈用ヰル"
+                        }
+                    ],
+
+                    さ: [
+                        {
+                            kana: "𛀼",
+                            originalCharacter: "乍",
+                            supplement: "「乍」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀽",
+                            originalCharacter: "佐",
+                            supplement: "「佐」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀾",
+                            originalCharacter: "佐",
+                            supplement: "「佐」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛀿",
+                            originalCharacter: "左",
+                            supplement: "「さ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁀",
+                            originalCharacter: "差",
+                            supplement: "「差」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁁",
+                            originalCharacter: "散",
+                            supplement: "「散」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁂",
+                            originalCharacter: "斜",
+                            supplement: "「斜」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁃",
+                            originalCharacter: "沙",
+                            supplement: "「沙」字ヨリ作セル假字"
+                        }
+                    ],
+                    し: [
+                        {
+                            kana: "𛁄",
+                            originalCharacter: "之",
+                            supplement: "「し」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁅",
+                            originalCharacter: "之",
+                            supplement: "「し」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁆",
+                            originalCharacter: "事",
+                            supplement: "「事」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁇",
+                            originalCharacter: "四",
+                            supplement: "「四」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁈",
+                            originalCharacter: "志",
+                            supplement: "「志」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁉",
+                            originalCharacter: "新",
+                            supplement: "「新」字ヨリ作セル假字"
+                        }
+                    ],
+                    す: [
+                        {
+                            kana: "𛁊",
+                            originalCharacter: "受",
+                            supplement: "「受」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁋",
+                            originalCharacter: "壽",
+                            supplement: "「壽」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁌",
+                            originalCharacter: "數",
+                            supplement: "「數」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁍",
+                            originalCharacter: "數",
+                            supplement: "「數」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁎",
+                            originalCharacter: "春",
+                            supplement: "「春」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁏",
+                            originalCharacter: "春",
+                            supplement: "「春」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁐",
+                            originalCharacter: "須",
+                            supplement: "「須」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁑",
+                            originalCharacter: "須",
+                            supplement: "「須」字ヨリ作セル假字"
+                        }
+                    ],
+                    せ: [
+                        {
+                            kana: "𛁒",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛁓",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛁔",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛁕",
+                            originalCharacter: "勢",
+                            supplement: "「勢」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁖",
+                            originalCharacter: "聲",
+                            supplement: "「聲」字ヨリ作セル假字"
+                        }
+                    ],
+                    そ: [
+                        {
+                            kana: "𛁗",
+                            originalCharacter: "所󠄁(𠩄 𫝂)",
+                            supplement: "「所󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁘",
+                            originalCharacter: "所󠄁(𠩄 𫝂)",
+                            supplement: "「所󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁙",
+                            originalCharacter: "曾",
+                            supplement: "「そ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁚",
+                            originalCharacter: "曾",
+                            supplement: "「そ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁛",
+                            originalCharacter: "楚",
+                            supplement: "「楚」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁜",
+                            originalCharacter: "蘇",
+                            supplement: "「蘇」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁝",
+                            originalCharacter: "處",
+                            supplement: "「處」字ヨリ作セル假字"
+                        }
+                    ],
+
+                    た: [
+                        {
+                            kana: "𛁞",
+                            originalCharacter: "堂",
+                            supplement: "「堂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁟",
+                            originalCharacter: "多",
+                            supplement: "「多」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁠",
+                            originalCharacter: "多",
+                            supplement: "「多」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁡",
+                            originalCharacter: "當",
+                            supplement: "「當」字ヨリ作セル假字"
+                        }
+                    ],
+                    ち: [
+                        {
+                            kana: "𛁢",
+                            originalCharacter: "千",
+                            supplement: "「千」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁣",
+                            originalCharacter: "地",
+                            supplement: "「地」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁤",
+                            originalCharacter: "智",
+                            supplement: "「智」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁥",
+                            originalCharacter: "知",
+                            supplement: "「ち」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁦",
+                            originalCharacter: "知",
+                            supplement: "「ち」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁧",
+                            originalCharacter: "致",
+                            supplement: "「致」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁨",
+                            originalCharacter: "遲",
+                            supplement: "「遲」字ヨリ作セル假字"
+                        }
+                    ],
+                    つ: [
+                        {
+                            kana: "𛁩",
+                            originalCharacter: "川",
+                            supplement: "「つ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁪",
+                            originalCharacter: "川",
+                            supplement: "「つ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁫",
+                            originalCharacter: "津",
+                            supplement: "「津」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁬",
+                            originalCharacter: "都",
+                            supplement: "「都」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁭",
+                            originalCharacter: "徒",
+                            supplement: "「徒」字ヨリ作セル假字"
+                        }
+                    ],
+                    て: [
+                        {
+                            kana: "𛁮",
+                            originalCharacter: "亭",
+                            supplement: "「亭」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁯",
+                            originalCharacter: "低",
+                            supplement: "「低」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁰",
+                            originalCharacter: "傳",
+                            supplement: "「傳」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁱",
+                            originalCharacter: "天",
+                            supplement: "「て」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁲",
+                            originalCharacter: "天",
+                            supplement: "「て」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁳",
+                            originalCharacter: "天",
+                            supplement: "「て」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁴",
+                            originalCharacter: "帝󠄁",
+                            supplement: "「帝󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁵",
+                            originalCharacter: "弖",
+                            supplement: "「弖」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁶",
+                            originalCharacter: "轉",
+                            supplement: "「轉」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂎",
+                            originalCharacter: "而",
+                            supplement: "「而」字ヨリ作セル假字ニシテ「テ」𪜈「ニ」𪜈用ヰル"
+                        }
+                    ],
+                    と: [
+                        {
+                            kana: "𛁷",
+                            originalCharacter: "土",
+                            supplement: "「土」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁸",
+                            originalCharacter: "度",
+                            supplement: "「度」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁹",
+                            originalCharacter: "東",
+                            supplement: "「東」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁺",
+                            originalCharacter: "登",
+                            supplement: "「登」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁻",
+                            originalCharacter: "登",
+                            supplement: "「登」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁼",
+                            originalCharacter: "砥",
+                            supplement: "「砥」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁽",
+                            originalCharacter: "等",
+                            supplement: "「等」字ヨリ作セル假字ニシテ「ト」𪜈「ラ」𪜈用ヰル"
+                        }
+                    ],
+
+                    な: [
+                        {
+                            kana: "𛁾",
+                            originalCharacter: "南",
+                            supplement: "「南」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁿",
+                            originalCharacter: "名",
+                            supplement: "「名」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂀",
+                            originalCharacter: "奈",
+                            supplement: "「な」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂁",
+                            originalCharacter: "奈",
+                            supplement: "「な」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂂",
+                            originalCharacter: "奈",
+                            supplement: "「な」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂃",
+                            originalCharacter: "菜",
+                            supplement: "「菜」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂄",
+                            originalCharacter: "那",
+                            supplement: "「那」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂅",
+                            originalCharacter: "那",
+                            supplement: "「那」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂆",
+                            originalCharacter: "難",
+                            supplement: "「難」字ヨリ作セル假字"
+                        }
+                    ],
+                    に: [
+                        {
+                            kana: "𛂇",
+                            originalCharacter: "丹",
+                            supplement: "「丹」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂈",
+                            originalCharacter: "二",
+                            supplement: "「ニ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂉",
+                            originalCharacter: "仁",
+                            supplement: "「に」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂊",
+                            originalCharacter: "児(兒)",
+                            supplement: "「兒」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂋",
+                            originalCharacter: "尓(爾)",
+                            supplement: "「爾」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂌",
+                            originalCharacter: "尓(爾)",
+                            supplement: "「爾」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂍",
+                            originalCharacter: "耳",
+                            supplement: "「耳」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂎",
+                            originalCharacter: "而",
+                            supplement: "「而」字ヨリ作セル假字ニシテ「テ」𪜈「ニ」𪜈用ヰル"
+                        }
+                    ],
+                    ぬ: [
+                        {
+                            kana: "𛂏",
+                            originalCharacter: "努",
+                            supplement: "「努」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂐",
+                            originalCharacter: "奴",
+                            supplement: "「ぬ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂑",
+                            originalCharacter: "怒",
+                            supplement: "「怒」字ヨリ作セル假字"
+                        }
+                    ],
+                    ね: [
+                        {
+                            kana: "𛂒",
+                            originalCharacter: "年󠄂",
+                            supplement: "「年󠄂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂓",
+                            originalCharacter: "年󠄂",
+                            supplement: "「年󠄂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂔",
+                            originalCharacter: "年󠄂",
+                            supplement: "「年󠄂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂕",
+                            originalCharacter: "根",
+                            supplement: "「根」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂖",
+                            originalCharacter: "熱",
+                            supplement: "「熱」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂗",
+                            originalCharacter: "祢(禰)",
+                            supplement: "「ね」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂘",
+                            originalCharacter: "子",
+                            supplement: "「子」字ヨリ作セル假字ニシテ「コ」𪜈「ネ」𪜈用ヰル"
+                        }
+                    ],
+                    の: [
+                        {
+                            kana: "𛂙",
+                            originalCharacter: "乃",
+                            supplement: "「の」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂚",
+                            originalCharacter: "濃",
+                            supplement: "「濃」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂛",
+                            originalCharacter: "能",
+                            supplement: "「能」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂜",
+                            originalCharacter: "能",
+                            supplement: "「能」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂝",
+                            originalCharacter: "農",
+                            supplement: "「農」字ヨリ作セル假字"
+                        }
+                    ],
+
+                    は: [
+                        {
+                            kana: "𛂞",
+                            originalCharacter: "八",
+                            supplement: "「ハ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂟",
+                            originalCharacter: "半󠄁",
+                            supplement: "「半󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂠",
+                            originalCharacter: "婆",
+                            supplement: "「婆」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂡",
+                            originalCharacter: "波",
+                            supplement: "「は」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂢",
+                            originalCharacter: "盤",
+                            supplement: "「盤」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂣",
+                            originalCharacter: "盤",
+                            supplement: "「盤」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂤",
+                            originalCharacter: "破",
+                            supplement: "「破」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂥",
+                            originalCharacter: "者",
+                            supplement: "「者」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂦",
+                            originalCharacter: "者",
+                            supplement: "「者」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂧",
+                            originalCharacter: "葉",
+                            supplement: "「葉」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂨",
+                            originalCharacter: "頗",
+                            supplement: "「頗」字ヨリ作セル假字"
+                        }
+                    ],
+                    ひ: [
+                        {
+                            kana: "𛂩",
+                            originalCharacter: "悲",
+                            supplement: "「悲」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂪",
+                            originalCharacter: "日",
+                            supplement: "「日」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂫",
+                            originalCharacter: "比",
+                            supplement: "「ひ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂬",
+                            originalCharacter: "避󠄁",
+                            supplement: "「避󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂭",
+                            originalCharacter: "非",
+                            supplement: "「非」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂮",
+                            originalCharacter: "飛",
+                            supplement: "「飛」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂯",
+                            originalCharacter: "飛",
+                            supplement: "「飛」字ヨリ作セル假字"
+                        }
+                    ],
+                    ふ: [
+                        {
+                            kana: "𛂰",
+                            originalCharacter: "不",
+                            supplement: "「ふ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂱",
+                            originalCharacter: "婦󠄁",
+                            supplement: "「婦󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂲",
+                            originalCharacter: "布",
+                            supplement: "「布」字ヨリ作セル假字"
+                        }
+                    ],
+                    へ: [
+                        {
+                            kana: "𛂳",
+                            originalCharacter: "倍",
+                            supplement: "「倍」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂴",
+                            originalCharacter: "弊󠄁",
+                            supplement: "「弊󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂵",
+                            originalCharacter: "𡚁(弊󠄁)",
+                            supplement: "「弊󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂶",
+                            originalCharacter: "遍󠄁",
+                            supplement: "「遍󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂷",
+                            originalCharacter: "邊",
+                            supplement: "「邊」字ヨリ作セル假字"
+                        },
+                        {   
+                            kana: "𛂸",
+                            originalCharacter: "辺(邊)",
+                            supplement: "「邊」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂹",
+                            originalCharacter: "部",
+                            supplement: "「へ」字ガ異󠄃體ナリ 「へ」及󠄁ビ「𛂹」ハ通󠄁例字母ヲ「部」ナリト云ヘルモ書ニ依テハ字母ハ「反」ナリト記󠄂セルモアリ"
+                        }
+                    ],
+                    ほ: [
+                        {
+                            kana: "𛂺",
+                            originalCharacter: "保",
+                            supplement: "「ほ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂻",
+                            originalCharacter: "保",
+                            supplement: "「ほ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛂼",
+                            originalCharacter: "報󠄂",
+                            supplement: "「報󠄂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂽",
+                            originalCharacter: "奉",
+                            supplement: "「奉」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂾",
+                            originalCharacter: "寶",
+                            supplement: "「寶」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛂿",
+                            originalCharacter: "本",
+                            supplement: "「本」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃀",
+                            originalCharacter: "本",
+                            supplement: "「本」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃁",
+                            originalCharacter: "豐",
+                            supplement: "「豐」字ヨリ作セル假字"
+                        }
+                    ],
+
+                    ま: [
+                        {
+                            kana: "𛃂",
+                            originalCharacter: "万(萬)",
+                            supplement: "「萬」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃃",
+                            originalCharacter: "末",
+                            supplement: "「ま」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃄",
+                            originalCharacter: "末",
+                            supplement: "「ま」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃅",
+                            originalCharacter: "滿",
+                            supplement: "「滿」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃆",
+                            originalCharacter: "滿",
+                            supplement: "「滿」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃇",
+                            originalCharacter: "萬",
+                            supplement: "「萬」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃈",
+                            originalCharacter: "麻󠄁",
+                            supplement: "「麻󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃖",
+                            originalCharacter: "馬",
+                            supplement: "「馬」字ヨリ作セル假字ニシテ「マ」𪜈「メ」𪜈用ヰル"
+                        }
+                    ],
+                    み: [
+                        {
+                            kana: "𛃉",
+                            originalCharacter: "三",
+                            supplement: "「ミ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃊",
+                            originalCharacter: "微󠄁",
+                            supplement: "「微󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃋",
+                            originalCharacter: "美",
+                            supplement: "「み」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃌",
+                            originalCharacter: "美",
+                            supplement: "「み」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃍",
+                            originalCharacter: "美",
+                            supplement: "「み」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃎",
+                            originalCharacter: "見",
+                            supplement: "「見」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃏",
+                            originalCharacter: "身",
+                            supplement: "「身」字ヨリ作セル假字"
+                        }
+                    ],
+                    む: [
+                        {
+                            kana: "𛃐",
+                            originalCharacter: "武",
+                            supplement: "「む」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃑",
+                            originalCharacter: "無",
+                            supplement: "「無」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃒",
+                            originalCharacter: "牟",
+                            supplement: "「牟」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃓",
+                            originalCharacter: "舞",
+                            supplement: "「舞」字ヨリ作セル假字"
+                        }
+                    ],
+                    め: [
+                        {
+                            kana: "𛃔",
+                            originalCharacter: "免󠄁",
+                            supplement: "「免󠄁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃕",
+                            originalCharacter: "面",
+                            supplement: "「面」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃖",
+                            originalCharacter: "馬",
+                            supplement: "「馬」字ヨリ作セル假字ニシテ「マ」𪜈「メ」𪜈用ヰル"
+                        }
+                    ],
+                    も: [
+                        {
+                            kana: "𛃗",
+                            originalCharacter: "母",
+                            supplement: "「母」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃘",
+                            originalCharacter: "毛",
+                            supplement: "「も」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃙",
+                            originalCharacter: "毛",
+                            supplement: "「も」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃚",
+                            originalCharacter: "毛",
+                            supplement: "「も」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃛",
+                            originalCharacter: "茂",
+                            supplement: "「茂」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃜",
+                            originalCharacter: "裳",
+                            supplement: "「裳」字ヨリ作セル假字"
+                        }
+                    ],
+
+                    や: [
+                        {
+                            kana: "𛃝",
+                            originalCharacter: "也",
+                            supplement: "「や」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃞",
+                            originalCharacter: "也",
+                            supplement: "「や」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃟",
+                            originalCharacter: "屋",
+                            supplement: "「屋」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃠",
+                            originalCharacter: "耶",
+                            supplement: "「耶」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃡",
+                            originalCharacter: "耶",
+                            supplement: "「耶」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃢",
+                            originalCharacter: "夜",
+                            supplement: "「夜」字ヨリ作セル假字ニシテ「ヤ」𪜈「ヨ」𪜈用ヰル"
+                        }
+                    ],
+                    ゆ: [
+                        {
+                            kana: "𛃣",
+                            originalCharacter: "游",
+                            supplement: "「游」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃤",
+                            originalCharacter: "由",
+                            supplement: "「ゆ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃥",
+                            originalCharacter: "由",
+                            supplement: "「ゆ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃦",
+                            originalCharacter: "遊󠄁",
+                            supplement: "「遊󠄁」字ヨリ作セル假字"
+                        }
+                    ],
+                    よ: [
+                        {
+                            kana: "𛃧",
+                            originalCharacter: "代",
+                            supplement: "「代」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃨",
+                            originalCharacter: "余",
+                            supplement: "「余」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃩",
+                            originalCharacter: "与(與)",
+                            supplement: "「與」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃪",
+                            originalCharacter: "与(與)",
+                            supplement: "「與」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃫",
+                            originalCharacter: "与(與)",
+                            supplement: "「與」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃬",
+                            originalCharacter: "豫",
+                            supplement: "「豫」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛁒",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛁓",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛁔",
+                            originalCharacter: "世",
+                            supplement: "「世」字ヨリ作セル字ナレバ「せ」ト同ナリト雖モ或ハ「ヨ」𪜈用ヰル"
+                        },
+                        {
+                            kana: "𛃢",
+                            originalCharacter: "夜",
+                            supplement: "「夜」字ヨリ作セル假字ニシテ「ヤ」𪜈「ヨ」𪜈用ヰル"
+                        }
+                    ],
+
+                    ら: [
+                        {
+                            kana: "𛃭",
+                            originalCharacter: "羅",
+                            supplement: "「羅」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃮",
+                            originalCharacter: "良",
+                            supplement: "「ら」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃯",
+                            originalCharacter: "良",
+                            supplement: "「ら」字ガ異󠄃體ナリ"
+                        },
+                        {   
+                            kana: "𛃰",
+                            originalCharacter: "良",
+                            supplement: "「ら」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛁽",
+                            originalCharacter: "等",
+                            supplement: "「等」字ヨリ作セル假字ニシテ「ト」𪜈「ラ」𪜈用ヰル"
+                        }
+                    ],
+                    り: [
+                        {
+                            kana: "𛃱",
+                            originalCharacter: "利",
+                            supplement: "「り」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃲",
+                            originalCharacter: "利",
+                            supplement: "「り」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃳",
+                            originalCharacter: "李",
+                            supplement: "「李」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃴",
+                            originalCharacter: "梨",
+                            supplement: "「梨」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃵",
+                            originalCharacter: "理",
+                            supplement: "「理」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃶",
+                            originalCharacter: "里",
+                            supplement: "「里」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃷",
+                            originalCharacter: "離",
+                            supplement: "「離」字ヨリ作セル假字"
+                        }
+                    ],
+                    る: [
+                        {
+                            kana: "𛃸",
+                            originalCharacter: "流",
+                            supplement: "「流」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃹",
+                            originalCharacter: "留",
+                            supplement: "「る」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃺",
+                            originalCharacter: "留",
+                            supplement: "「る」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃻",
+                            originalCharacter: "留",
+                            supplement: "「る」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛃼",
+                            originalCharacter: "累",
+                            supplement: "「累」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛃽",
+                            originalCharacter: "類",
+                            supplement: "「類」字ヨリ作セル假字"
+                        }
+                    ],
+                    れ: [
+                        {
+                            kana: "𛃾",
+                            originalCharacter: "禮",
+                            supplement: "「𛃾」ハ「禮」字ヨリ作シ「れ」ハ「礼」字ヨリ作ス"
+                        },
+                        {
+                            kana: "𛃿",
+                            originalCharacter: "礼(禮)",
+                            supplement: "「れ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄀",
+                            originalCharacter: "連",
+                            supplement: "「連」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄁",
+                            originalCharacter: "麗",
+                            supplement: "「麗」字ヨリ作セル假字"
+                        }
+                    ],
+                    ろ: [
+                        {
+                            kana: "𛄂",
+                            originalCharacter: "呂",
+                            supplement: "「ろ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄃",
+                            originalCharacter: "呂",
+                            supplement: "「ろ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄄",
+                            originalCharacter: "婁",
+                            supplement: "「婁」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄅",
+                            originalCharacter: "樓",
+                            supplement: "「樓」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄆",
+                            originalCharacter: "路",
+                            supplement: "「路」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄇",
+                            originalCharacter: "露",
+                            supplement: "「露」字ヨリ作セル假字"
+                        }
+                    ],
+                
+                    わ: [
+                        {
+                            kana: "𛄈",
+                            originalCharacter: "倭",
+                            supplement: "「倭」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄉",
+                            originalCharacter: "和",
+                            supplement: "「わ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄊",
+                            originalCharacter: "和",
+                            supplement: "「わ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄋",
+                            originalCharacter: "王",
+                            supplement: "「王」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄌",
+                            originalCharacter: "王",
+                            supplement: "「王」字ヨリ作セル假字"
+                        }
+                    ],
+                    ゐ: [
+                        {
+                            kana: "𛄍",
+                            originalCharacter: "井",
+                            supplement: "「井」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄎",
+                            originalCharacter: "井",
+                            supplement: "「井」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄏",
+                            originalCharacter: "居",
+                            supplement: "「居」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄐",
+                            originalCharacter: "爲",
+                            supplement: "「ゐ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄑",
+                            originalCharacter: "遺󠄁",
+                            supplement: "「遺󠄁」字ヨリ作セル假字"
+                        }
+                    ],
+                    ゑ: [
+                        {
+                            kana: "𛄒",
+                            originalCharacter: "惠",
+                            supplement: "「ゑ」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄓",
+                            originalCharacter: "衞",
+                            supplement: "「衞」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄔",
+                            originalCharacter: "衞",
+                            supplement: "「衞」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄕",
+                            originalCharacter: "衞",
+                            supplement: "「衞」字ヨリ作セル假字"
+                        }
+                    ],
+                    を: [
+                        {
+                            kana: "𛄖",
+                            originalCharacter: "乎",
+                            supplement: "「乎」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄗",
+                            originalCharacter: "乎",
+                            supplement: "「乎」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄘",
+                            originalCharacter: "尾",
+                            supplement: "「尾」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄙",
+                            originalCharacter: "緖",
+                            supplement: "「緖」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄚",
+                            originalCharacter: "越",
+                            supplement: "「越」字ヨリ作セル假字"
+                        },
+                        {
+                            kana: "𛄛",
+                            originalCharacter: "遠󠄁",
+                            supplement: "「を」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄜",
+                            originalCharacter: "遠󠄁",
+                            supplement: "「を」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛀅",
+                            originalCharacter: "惡",
+                            supplement: "「惡」字ヨリ作セル假字ニシテ「ア」𪜈「ヲ」𪜈用ヰル"
+                        }
+                    ],
+
+                    ん: [
+                        {
+                            kana: "𛄝",
+                            originalCharacter: "无(無)",
+                            supplement: "「ん」字ガ異󠄃體ナリ"
+                        },
+                        {
+                            kana: "𛄞",
+                            originalCharacter: "无(無)",
+                            supplement: "「ん」字ガ異󠄃體ナリ"
+                        }
+                    ]
+                }
+            );
+
+            const obj_TEXT_EXPLAINE = Object.freeze(
+                {
+                    kana: "撰字：",
+                    originalCharacter: "字母：",
+                    supplement: "槪說："
+                }
+            );
+            
+        /* 函數 */
+            function resetText(sArgId) {
+                document
+                .getElementById(sArgId)
+                .textContent = '';
+            }
+
+            function resetExButton() {
+                document
+                .getElementById('exTable')
+                .innerHTML = '';
+            }
+            
+            function setText(sArgId, sArgKey, sArgText) {
+                const sText =
+                obj_TEXT_EXPLAINE[sArgKey] +
+                sArgText;
+
+                document
+                .getElementById(sArgId)
+                .insertAdjacentText(
+                    'beforeEnd',
+                    sText
+                );
+            }
+
+            function pushExButton(sArgExKana, iIndex) {
+                for (let i = 3; i < as_ID.length; i++) {
+                    resetText(as_ID[i]);
+                }
+                
+                setText(
+                    as_ID[3],
+                    as_ID[0],
+                    sArgExKana
+                );
+                
+                const sKana =
+                document
+                .getElementById('exTable')
+                .getAttribute('value');
+
+                const aobjExKana =
+                obj_EXTENDED_KANA[sKana][iIndex];
+
+                const sOriginalCharacter =
+                aobjExKana.originalCharacter;
+
+                setText(
+                    as_ID[4],
+                    as_ID[1],
+                    sOriginalCharacter
+                );
+
+                const sSupplement =
+                aobjExKana.supplement;
+
+                setText(
+                    as_ID[5],
+                    as_ID[2],
+                    sSupplement
+                );
+            }
+
+            function setExButton(sArgKana) {
+                document
+                .getElementById('exTable')
+                .setAttribute(
+                    'value',
+                    sArgKana
+                );
+                
+                const aobjExKana =
+                obj_EXTENDED_KANA[sArgKana];
+
+                for (let i = 0; i < aobjExKana.length; i++) {
+                    const sHTMLExButton =
+                    as_HTML_BUTTON[0] +
+                    aobjExKana[i].kana +
+                    '" value="' +
+                    String(i) +
+                    as_HTML_BUTTON[1] +
+                    aobjExKana[i].kana +
+                    as_HTML_BUTTON[2];
+
+                    document
+                    .getElementById('exTable')
+                    .insertAdjacentHTML(
+                        'beforeEnd',
+                        sHTMLExButton
+                    );
+
+                    document
+                    .getElementById(aobjExKana[i].kana)
+                    .addEventListener(
+                        'click',
+                        function() {
+                            pushExButton(
+                                this.textContent,
+                                parseInt(
+                                    this.getAttribute('value')
+                                )
+                            );
+                        }
+                    );
+                }
+            }
+            
+            function pushButton(sArgKanaRome) {
+                for (const sId of as_ID) {
+                    resetText(sId);
+                }
+
+                resetExButton();
+                
+                const objSelectedKana =
+                obj_ROME_TO_KANA[sArgKanaRome];
+
+                const sKana =
+                objSelectedKana.kana;
+
+                setText(
+                    as_ID[0],
+                    as_ID[0],
+                    sKana
+                );
+
+                const sOriginalCharacter =
+                objSelectedKana.originalCharacter;
+
+                setText(
+                    as_ID[1],
+                    as_ID[1],
+                    sOriginalCharacter
+                );
+                
+                const sSupplement =
+                objSelectedKana.supplement;
+
+                setText(
+                    as_ID[2],
+                    as_ID[2],
+                    sSupplement
+                );
+
+                if (
+                    sArgKanaRome == 'yi' ||
+                    sArgKanaRome == 'ye' ||
+                    sArgKanaRome == 'wu' 
+                ) {}
+                else {
+                    setExButton(sKana);
+                }
+            }
+
+            for (let i = 0; i < as_KANA.length; i++) {
+                const sHTMLButton =
+                as_HTML_BUTTON[0] +
+                obj_KANA_TO_ROME[as_KANA[i]] +
+                as_HTML_BUTTON[1] +
+                as_KANA[i] +
+                as_HTML_BUTTON[2];
+
+                document
+                .getElementById('table')
+                .insertAdjacentHTML(
+                    'beforeEnd',
+                    sHTMLButton
+                );
+
+                document
+                .getElementById(obj_KANA_TO_ROME[as_KANA[i]])
+                .addEventListener(
+                    'click',
+                    function() {
+                        pushButton(this.getAttribute('id'));
+                    }
+                );
+            }
+        </script>
+    </body>
+</html>

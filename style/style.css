@@ -1,0 +1,132 @@
+@charset "UTF-8";
+/*
+    花園明朝
+    https://ja.osdn.net/projects/hanazono-font/releases/
+
+    zr12r_kaharinana
+    https://glyphwiki.org/wiki/Group:zr12r_kaharinana
+
+    cutra_AppendingToHanaMin
+    https://glyphwiki.org/wiki/Group:cutra_AppendingToHanaMin
+    */
+@font-face {
+    font-family: '花園明朝A';
+    src: url('../font/HanaMinA.ttf');
+}
+
+@font-face {
+    font-family: '花園明朝B';
+    src: url('../font/HanaMinB.ttf');
+}
+
+@font-face {
+    font-family: 'Kaharinana';
+    src: url('../font/gw3347940.ttf');
+}
+
+@font-face {
+    font-family: 'cutra_AppendingToHanaMin';
+    src: url('../font/gw3664726.ttf');
+}
+
+
+body {
+    text-align: center;
+    font-family: 'Kaharinana', '花園明朝A', '花園明朝B', 'cutra_AppendingToHanaMin';
+    background-color: #f8fbf8;
+}
+
+button {
+    font-family: 'Kaharinana', '花園明朝A', '花園明朝B', 'cutra_AppendingToHanaMin';
+    font-size: 35px;
+    margin: 5px;
+    padding: 5px;
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    border-color: aliceblue;
+}
+
+p {
+    margin: 5px auto 5px auto;
+    max-width: 960px;
+}
+
+a:link,
+a:visited {
+	color: cadetblue;
+    background-color: whitesmoke;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #7b8dac;
+	text-decoration: none;
+}
+
+a:active {
+	color: #5a9bc0;
+	text-decoration: none;
+}
+
+select {
+    font-family: 'Kaharinana', '花園明朝A', '花園明朝B', 'cutra_AppendingToHanaMin';
+    height: 40px;
+}
+
+th {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+
+.table {
+    writing-mode: vertical-rl;
+    margin: auto;
+    padding: auto;
+    height: 400px;
+}
+
+.exTable {
+    direction: rtl;
+}
+
+.annotation {
+    text-align: left;
+}
+
+
+.navigator {
+    margin: 0 auto 0 auto;
+    max-width: 960px;
+}
+
+.navigator li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 30px;
+}
+
+.navigator ul {
+	margin: 0 0 0 0;
+	padding: 20px 10px 15px 20px;
+}
+
+.taiwaneseTone {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.shinobiIroha {
+    writing-mode: vertical-rl;
+    margin: auto;
+    padding: auto;
+    font-size: 25px;
+}
+
+
+#exExplain,
+#explain {
+    margin: 5px auto 0 auto;
+    max-width: 960px;
+}
